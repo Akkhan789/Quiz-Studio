@@ -1033,7 +1033,7 @@ $('exportBtn').onclick=async()=>{
    const offCanvas = document.createElement('canvas'); offCanvas.width = W; offCanvas.height = H;
    const offCtx = offCanvas.getContext('2d');
    const rCtx = window.QuizSceneRenderer ? QuizSceneRenderer.createRendererContext() : null;
-   const adaptiveQ = window.QuizWebCodecsDiagnostics ? QuizWebCodecsDiagnostics.createAdaptiveQueue(venc, { minDepth: 2, maxDepth: 6, initialDepth: 3 }) : null;
+   const adaptiveQ = window.QuizWebCodecsDiagnostics ? QuizWebCodecsDiagnostics.createAdaptiveQueue(venc, { minLimit: 2, maxLimit: 6, initialLimit: 3 }) : null;
 
    for(let f=0; f<totalFrames; f++){
     if(window.__exportStop) throw new Error('Export cancelled');
@@ -1056,11 +1056,16 @@ $('exportBtn').onclick=async()=>{
      drawCanvas(offCtx, W, H, questions[seg.i], seg.i, questions.length, timerD, seg.type === 'reveal' || seg.type === 'answer', { enter: 1 });
     }
     const vf = new VideoFrame(offCanvas, { timestamp: Math.round(f * 1e6 / FPSSEL), duration: Math.round(1e6 / FPSSEL) });
-    if (adaptiveQ) {
-     await adaptiveQ.submitFrame(vf, f % (FPSSEL * 3) === 0, performance.now() - frameT0);
-    } else {
+    try {
      venc.encode(vf, { keyFrame: f % (FPSSEL * 3) === 0 });
+    } finally {
      vf.close();
+    }
+    const encodeDuration = performance.now() - frameT0;
+    if (adaptiveQ) {
+     adaptiveQ.recordEnqueue(encodeDuration);
+     await adaptiveQ.waitIfBackpressured();
+    } else {
      while (venc.encodeQueueSize > 4) await new Promise(r => setTimeout(r, 4));
     }
 

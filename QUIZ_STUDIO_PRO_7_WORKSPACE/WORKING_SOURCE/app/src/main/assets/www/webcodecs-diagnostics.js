@@ -321,6 +321,11 @@
         let settled = false;
         const done = () => {
           if (settled) return;
+          const currentDepth = encoder && typeof encoder.encodeQueueSize === 'number' ? encoder.encodeQueueSize : 0;
+          if (currentDepth > currentLimit && !encoder?.closed && !encoder?.error) {
+            // Queue is still backpressured; extend wait rather than prematurely releasing
+            return;
+          }
           settled = true;
           clearTimeout(timer);
           resolve();

@@ -214,19 +214,33 @@
     ctx.fillText(String(shown), rect.x + rect.h * 0.6, rect.y + rect.h / 2);
   }
 
-  function resolveElementReveal(el, revealSchedule, revealState, revealConfig, elapsedSec, isPostVoice) {
+  function resolveElementReveal(el, revealSchedule, revealState, revealConfig, elapsedSec, isPostVoice, q) {
     if (!TextReveal || !revealSchedule || !revealConfig || !revealConfig.enabled || isPostVoice) {
       return { visible: true, opacity: 1, offsetXFrac: 0, offsetYFrac: 0, scale: 1, blurPx: 0, clipFrac: 1, shownText: null };
     }
     const t = elapsedSec;
+    const qText = (q && q.question) || (revealSchedule.question && revealSchedule.question.text) || '';
     if (el.type === 'question_text') {
-      return TextReveal.evaluateReveal('questionText', revealSchedule.question.text, revealSchedule.question.startSec, revealSchedule.question.endSec, t, revealConfig, false);
+      const startSec = revealSchedule.questionStart !== undefined ? revealSchedule.questionStart : ((revealSchedule.question && revealSchedule.question.startSec) || 0);
+      const endSec = revealSchedule.questionEnd !== undefined ? revealSchedule.questionEnd : ((revealSchedule.question && revealSchedule.question.endSec) || Math.max(0.5, revealSchedule.durationSec ? revealSchedule.durationSec * 0.4 : 1.2));
+      return TextReveal.evaluateReveal('questionText', qText, startSec, endSec, t, revealConfig, false);
     }
     if ((el.type === 'option_label' || el.type === 'option_container' || el.type === 'option_text') && el.optionIndex >= 0 && el.optionIndex < 4) {
-      const slot = revealSchedule.options[el.optionIndex];
-      if (!slot) return { visible: true, opacity: 1, offsetXFrac: 0, offsetYFrac: 0, scale: 1, blurPx: 0, clipFrac: 1, shownText: null };
-      const role = el.type === 'option_label' ? 'optionLabel' : 'optionText';
-      return TextReveal.evaluateReveal(role, slot.text, slot.startSec, slot.endSec, t, revealConfig, false);
+      const slots = Array.isArray(revealSchedule.options) ? revealSchedule.options : [];
+      const slot = slots[el.optionIndex];
+      const opts = (q && Array.isArray(q.options)) ? q.options : [];
+      const optText = (slot && slot.text) || opts[el.optionIndex] || el.text || '';
+      const labelText = (slot && slot.label) || ('ABCD'[el.optionIndex] || 'A');
+
+      if (el.type === 'option_label') {
+        const lStart = slot ? (slot.labelStart !== undefined ? slot.labelStart : (slot.textStart !== undefined ? slot.textStart - 0.15 : 0)) : 0;
+        const lEnd = slot ? (slot.labelEnd !== undefined ? slot.labelEnd : (slot.textStart !== undefined ? slot.textStart : 0.3)) : 0.3;
+        return TextReveal.evaluateReveal('optionLabel', labelText, lStart, lEnd, t, revealConfig, false);
+      } else {
+        const tStart = slot ? (slot.textStart !== undefined ? slot.textStart : (slot.startSec !== undefined ? slot.startSec : 0.2)) : 0.2;
+        const tEnd = slot ? (slot.textEnd !== undefined ? slot.textEnd : (slot.endSec !== undefined ? slot.endSec : 0.8)) : 0.8;
+        return TextReveal.evaluateReveal('optionText', optText, tStart, tEnd, t, revealConfig, false);
+      }
     }
     if (el.type === 'header' || el.type === 'question_number') {
       return TextReveal.evaluateReveal('header', el.text || '', 0, 0.35, t, revealConfig, false);
@@ -241,7 +255,7 @@
     if (!el.visible) return;
     if (runtime.sceneMode === 'IMPORTED_TEMPLATE_MODE' && el.isDefaultTemplateOnly) return;
 
-    const rev = resolveElementReveal(el, runtime.revealSchedule, revealFlag, runtime.revealConfig, runtime.voiceElapsedSec || 0, runtime.isPostVoice !== false);
+    const rev = resolveElementReveal(el, runtime.revealSchedule, revealFlag, runtime.revealConfig, runtime.voiceElapsedSec || 0, runtime.isPostVoice !== false, q);
     if (!rev.visible) return;
 
     const baseRect = {
