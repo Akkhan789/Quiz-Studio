@@ -1,0 +1,1504 @@
+QUIZ STUDIO PRO 6 — STRICT AUTOMATED PHASE-BY-PHASE ENGINEERING REPAIR
+
+PRINCIPAL ENGINEERING ROLE
+
+Act as a Principal Android MediaCodec Engineer, WebCodecs Performance Engineer, Computer Vision Architect, Canvas/WebGL Rendering Engineer, Senior Kotlin Developer, Video Animation Engineer, and Independent QA Lead.
+
+You are modifying an existing application. You are NOT building a new application from scratch.
+
+The supplied ZIP is the current application source. The previously supplied compact-source-reference ZIP is a secondary reference for comparing existing architecture and visual behavior. Inspect both before making changes.
+
+The application already has working functionality, including question importing, voice generation, local mode, and video exporting. Preserve these features.
+
+The previous update did not complete the mandatory architecture changes. Do not repeat the same incomplete implementation.
+
+ABSOLUTE WORK RULE — AUTOMATIC EXECUTION OF ALL PHASES
+
+You MUST execute every phase from PHASE 0 through PHASE 15 automatically, sequentially, and continuously.
+
+Do not stop after PHASE 0. Do not wait for the user to tell you to start PHASE 1. Do not require the user to manually authorize each subsequent phase.
+
+The required execution sequence is:
+
+PHASE 0 → PHASE 1 → PHASE 2 → PHASE 3 → PHASE 4 → PHASE 5 → PHASE 6 → PHASE 7 → PHASE 8 → PHASE 9 → PHASE 10 → PHASE 11 → PHASE 12 → PHASE 13 → PHASE 14 → PHASE 15.
+
+Mandatory execution cycle for EVERY phase
+
+For each phase, perform the following steps:
+
+1. Inspect the existing implementation.
+2. Identify the exact defects and affected files.
+3. Determine the implementation plan.
+4. Modify the actual source code.
+5. Run the relevant automated tests.
+6. Run the relevant integration or device tests wherever possible.
+7. Inspect the modified source code to confirm that the feature is genuinely implemented.
+8. Verify actual runtime behavior wherever the environment permits.
+9. Compare the implementation against every acceptance condition.
+10. Fix failures and defects immediately.
+11. Rerun the failed tests.
+12. Rerun regression tests for affected existing features.
+13. Record the final status and supporting evidence for the current phase.
+14. Automatically start the next phase.
+
+AUTOMATIC CONTINUATION IS MANDATORY
+
+After completing and testing a phase, automatically continue to the next phase.
+
+For example:
+
+- Complete PHASE 0, test it, record its report, and automatically start PHASE 1.
+- Complete PHASE 1, test it, record its report, and automatically start PHASE 2.
+- Complete PHASE 2, test it, record its report, and automatically start PHASE 3.
+- Continue in exactly the same way through PHASE 15.
+
+Do not stop after creating an audit report.
+
+Do not stop after writing an implementation plan.
+
+Do not stop after compiling the project.
+
+Do not deliver an intermediate APK and ask the user whether to continue.
+
+Do not ask the user to send another message to start the next phase.
+
+Do not ask for approval between phases.
+
+The entire project must be handled in one continuous execution workflow.
+
+PHASE FAILURE HANDLING
+
+If a phase fails a test:
+
+1. Identify the actual cause.
+2. Fix the implementation.
+3. Rerun the relevant tests.
+4. Rerun affected regression tests.
+5. Verify the correction.
+6. Continue to the next phase once its mandatory requirements pass.
+
+If a requirement cannot be implemented because of a genuine technical or environment limitation:
+
+1. Do not fabricate a solution.
+2. Record the exact limitation.
+3. Implement the best technically valid alternative wherever possible.
+4. Test the alternative.
+5. Mark the requirement PARTIAL or BLOCKED.
+6. Explain the reason in the final report.
+7. Continue with independent subsequent phases wherever safe.
+
+Do not stop the entire project merely because one environment-dependent test cannot be performed.
+
+Do not hide unresolved defects.
+
+Do not mark a phase PASS unless its actual acceptance conditions have been verified.
+
+REGRESSION PROTECTION ACROSS ALL PHASES
+
+Maintain a shared regression checklist.
+
+After every phase:
+
+- Run tests directly related to that phase.
+- Rerun tests for previously completed dependent features.
+- Test existing features affected by modified files.
+- Fix regressions before continuing.
+
+If a later phase breaks an earlier feature, repair that regression before proceeding.
+
+Preserve working TTS, question import, local mode, project saving, preview, and video export.
+
+IMPLEMENTATION REPORT
+
+Maintain an "IMPLEMENTATION_AUDIT.md" file in the source project.
+
+Update it automatically after every phase.
+
+Include:
+
+- Phase number.
+- Requirements.
+- Changed files.
+- Actual implementation details.
+- Tests executed.
+- Test results.
+- Remaining defects.
+- Evidence and limitations.
+- Final phase status: PASS, PARTIAL, FAIL, or BLOCKED.
+
+Do not mark a phase complete because:
+
+- The project compiles.
+- A button appears.
+- A function has been created but is not connected.
+- A comment describes the intended behavior.
+- A mock preview looks convincing.
+- A test only checks that an element exists.
+
+Do not fabricate tests, device results, benchmark figures, or screenshots.
+
+If a required test cannot be executed in the current environment, explicitly mark it BLOCKED and provide the exact device test procedure.
+
+FINAL DELIVERY RULE
+
+Only after automatically attempting all phases from PHASE 0 through PHASE 15, prepare ONE consolidated final report.
+
+Deliver:
+
+- Complete updated APK.
+- Complete updated source project ZIP.
+- Phase-by-phase implementation report.
+- Before/after benchmark report.
+- Regression test report.
+- Known limitations.
+- Exact device test instructions for any BLOCKED tests.
+
+The user must not have to manually initiate any phase.
+
+---
+
+PHASE 0 — SOURCE AUDIT AND REGRESSION BASELINE
+
+Before changing code:
+
+1. Inventory the complete current ZIP.
+2. Inspect the actual implementations, not just documentation.
+3. Inspect the earlier compact-source-reference ZIP and compare relevant rendering, question, timeline, template, and animation code.
+4. Identify duplicate rendering systems, old fallback paths, unused functions, and conflicting state.
+5. Identify the current active encoder path.
+6. Identify the exact path used by the latest export.
+7. Identify how imported template images enter the preview and how default elements are drawn.
+8. Identify the source of duplicated background/default-template layers.
+9. Identify how question text, option text, and narration are currently scheduled.
+10. Record the baseline behavior before changing anything.
+
+Create a feature matrix:
+
+Requirement | Existing implementation | Defect | Planned correction
+
+Preserve all existing working functionality.
+
+Baseline regression checklist
+
+Verify:
+
+- Login page.
+- Local mode.
+- Question import.
+- Sample questions.
+- Edge TTS.
+- Voice preview.
+- Speech generation and progress.
+- Existing default templates.
+- Preview rendering.
+- Video export.
+- MP4 playback.
+- Download.
+- Share.
+- Project save and reopen.
+
+Complete the baseline report, test what is possible, and then automatically proceed to PHASE 1.
+
+---
+
+PHASE 1 — REAL ENCODER PATH IDENTIFICATION AND PROFILING
+
+Inspect:
+
+- "app/src/main/assets/www/index.html"
+- "app/src/main/assets/www/mp4-muxer.mjs"
+- "app/src/main/assets/www/timeline-engine.js"
+- "app/src/main/java/com/quizstudiopro/app/MainActivity.kt"
+- "app/src/main/java/com/quizstudiopro/app/video/StreamingVideoEncoderSession.kt"
+- "app/src/main/java/com/quizstudiopro/app/video/VideoEncoder.kt"
+- "app/src/main/java/com/quizstudiopro/app/video/EglTextureRenderer.kt"
+- "app/src/main/java/com/quizstudiopro/app/service/QuizEncodingService.kt"
+
+Current known user measurement
+
+- 10 questions.
+- 1920×1080.
+- 24 FPS.
+- Approximately 7,800 frames.
+- Encoding time approximately 3 minutes 45 seconds.
+- Video duration approximately 4 minutes 22 seconds.
+- Complete workflow approximately 5–6 minutes.
+
+Treat these as historical user measurements, not as newly verified benchmark results.
+
+Required diagnostics
+
+For every export, log:
+
+- Selected export path.
+- Codec name.
+- Encoder implementation.
+- Hardware acceleration evidence.
+- Resolution.
+- FPS.
+- Bitrate.
+- Total frames.
+- Frames submitted.
+- Frames encoded.
+- Frames written to muxer.
+- Encoding start/end timestamps.
+- Encoding duration.
+- Actual processing FPS.
+- Peak memory where measurable.
+- Audio processing duration.
+- MP4 finalization duration.
+- Output file size.
+- Any dropped, duplicated, or failed frames.
+
+Use explicit path labels:
+
+- "WEBCODECS_HARDWARE_CONFIRMED"
+- "WEBCODECS_HARDWARE_UNVERIFIED"
+- "WEBCODECS_SOFTWARE"
+- "NATIVE_MEDIACODEC_SURFACE"
+- "NATIVE_MEDIACODEC_BITMAP_FALLBACK"
+- "RECORDER_FALLBACK"
+
+Do not label a path as hardware confirmed without evidence.
+
+Keep benchmarks from different paths separate.
+
+Implement and test the diagnostics, record the results, and automatically proceed to PHASE 2.
+
+---
+
+PHASE 2 — REMOVE THE NATIVE JPEG/BASE64 BOTTLENECK
+
+The current slow path must not remain the normal native export path.
+
+The existing problematic architecture is:
+
+Canvas → JPEG → Base64 → JavaScript bridge → Base64 decode → JPEG bytes → Bitmap decode → EGL → MediaCodec.
+
+Required target architecture
+
+Use:
+
+Canvas/WebGL rendering → direct frame submission to native rendering surface → EGL → MediaCodec input Surface → H.264 → MP4 muxer.
+
+Where supported:
+
+1. Configure MediaCodec with "COLOR_FormatSurface".
+2. Create the encoder input Surface.
+3. Create and reuse the EGL context.
+4. Attach an EGL window surface to the MediaCodec input Surface.
+5. Render the current frame directly into the encoder surface.
+6. Set accurate presentation timestamps.
+7. Call "eglSwapBuffers()" for each rendered frame.
+8. Drain encoded output efficiently.
+9. Write encoded samples to the MP4 muxer.
+10. Signal EOS correctly.
+11. Wait for the actual output EOS.
+12. Finalize the MP4 safely.
+
+Critical architectural decision
+
+Do not assume that creating an EGL surface automatically gives JavaScript direct access to it.
+
+Design and implement a real frame-transfer mechanism between WebView rendering and native EGL.
+
+Evaluate technically viable approaches, including:
+
+- Native rendering from structured scene commands.
+- A WebGL/shared texture path where supported.
+- Hardware buffer or compatible Surface-based interop where supported.
+- A reusable raw pixel-buffer fallback if direct interop is unavailable.
+
+Select the best supported architecture for the actual Android/WebView versions.
+
+Avoid converting every frame into JPEG, Base64, or Bitmap in the normal fast path.
+
+If a particular device cannot support the direct path, retain a clearly identified compatibility fallback.
+
+Memory and rendering requirements
+
+- Reuse EGL context and surfaces.
+- Reuse shaders and buffers.
+- Avoid per-frame Bitmap allocations.
+- Avoid per-frame JPEG compression.
+- Avoid Base64 serialization.
+- Avoid unnecessary bridge calls.
+- Use bounded frame queues.
+- Implement proper backpressure.
+- Preserve frame order.
+- Preserve timestamps.
+- Do not drop frames.
+- Handle cancellation and errors safely.
+
+Audio and muxing
+
+Preserve audio synchronization.
+
+Optimize:
+
+- PCM transfer.
+- Audio input feeding.
+- Codec output draining.
+- Muxer write batching.
+- MP4 finalization.
+
+Do not break TTS audio, countdown sounds, or narration.
+
+Phase 2 acceptance test
+
+Prove from runtime logs that normal native export does not invoke:
+
+- "toDataURL('image/jpeg')"
+- Per-frame Base64 image transfer.
+- Per-frame "BitmapFactory.decodeByteArray()".
+
+A compatibility fallback may still contain these operations, but the normal native fast path must not use them.
+
+Do not proceed until the native fast path is actually exercised and verified on a compatible Android device.
+
+After completing and verifying PHASE 2, automatically proceed to PHASE 3.
+
+---
+
+PHASE 3 — WEBCODECS HARDWARE VERIFICATION AND QUEUE OPTIMIZATION
+
+Inspect WebCodecs support detection and encoder configuration.
+
+The request:
+
+"hardwareAcceleration: 'prefer-hardware'"
+
+is not proof of actual hardware selection.
+
+Implement:
+
+1. Supported codec configuration checks.
+2. Hardware preference requests.
+3. Capture all exposed configuration and diagnostics.
+4. Identify what the browser does and does not expose about hardware selection.
+5. Never invent a hardware/software status.
+6. Run controlled hardware-preference and software-preference comparisons where supported.
+7. Use identical input frames, codec, dimensions, FPS, bitrate, and test duration.
+8. Compare actual throughput.
+9. Compare peak memory.
+10. Compare output file size and bitrate.
+11. Compare visual quality.
+12. Select the fastest reliable configuration.
+
+If exact hardware selection is not exposed by the browser, label it "UNVERIFIED" and use controlled performance measurements.
+
+Adaptive backpressure
+
+The existing fixed queue limit must not simply be increased.
+
+Benchmark bounded queue sizes and use adaptive backpressure based on:
+
+- Encoder queue depth.
+- Memory pressure.
+- Encoding throughput.
+- Output callback timing.
+- Device capabilities.
+
+Avoid 4ms polling loops where a better event-driven or bounded-wait approach is available.
+
+Release each VideoFrame as soon as safe.
+
+Do not allow unbounded memory accumulation.
+
+Phase 3 acceptance test
+
+Provide separate benchmark results for:
+
+- Hardware preference.
+- Software preference.
+- Unverified hardware selection.
+
+Do not proceed until the diagnostics and backpressure behavior are tested.
+
+After completing and verifying PHASE 3, automatically proceed to PHASE 4.
+
+---
+
+PHASE 4 — RENDERING AND ENCODING PERFORMANCE OPTIMIZATION
+
+Optimize without reducing:
+
+- Resolution.
+- FPS.
+- Visual quality.
+- Animation duration.
+- Frame count.
+- Narration.
+- Audio synchronization.
+
+Investigate:
+
+- Static background caching.
+- Template layer caching.
+- Text measurement caching.
+- Font initialization caching.
+- Reuse of offscreen canvases.
+- Elimination of redundant full-canvas copies.
+- Page-turn snapshot optimization.
+- Timeline segment lookup optimization.
+- Reuse of drawing paths and geometry.
+- Reduced DOM reads during frame rendering.
+- Typed-array buffer reuse.
+- Efficient native bridge batching.
+- Efficient MediaCodec draining.
+- Muxer batching.
+- Audio rendering independently from video rendering where safe.
+
+Avoid caching dynamic content incorrectly.
+
+Every optimization must have a correctness test.
+
+Performance targets
+
+Aim for at least 10× improvement over the measured baseline where device architecture permits. Aim higher where benchmarks support it.
+
+The target for a 25-question 1080p project is approximately 2–3 minutes on sufficiently capable hardware.
+
+These are targets, not guarantees.
+
+Do not fake performance by:
+
+- Dropping frames.
+- Skipping animation frames.
+- Reducing resolution.
+- Reducing FPS.
+- Lowering quality.
+- Removing narration.
+- Shortening video duration.
+
+Do not proceed until performance changes have been measured against the baseline.
+
+After completing and verifying PHASE 4, automatically proceed to PHASE 5.
+
+---
+
+PHASE 5 — TEMPLATE RENDERING ARCHITECTURE AND DOUBLE-LAYER BUG
+
+This phase is mandatory before implementing new template detection.
+
+The current imported-image behavior is defective because the imported image is used as a background while the application still draws its default header, question, options, and other UI over it.
+
+This creates two visual layers.
+
+Required rendering modes
+
+Implement an explicit rendering mode:
+
+"DEFAULT_TEMPLATE_MODE"
+
+and
+
+"IMPORTED_TEMPLATE_MODE"
+
+When no user template is imported:
+
+- Use the existing default template.
+- Preserve all existing default template behavior.
+
+When a user imports a template:
+
+- Switch to imported-template mode.
+- Remove the default template from the active render tree.
+- Do not draw default header, default question card, default options, or default decorative elements unless the user explicitly adds them.
+- Show only the user's imported design and its editable reconstructed elements.
+- Do not keep the default design underneath the imported design.
+- Do not use the imported image as a background and then draw a second complete default quiz on top.
+
+Single-source-of-truth requirement
+
+There must be one active scene graph.
+
+The renderer must draw only the currently active design model.
+
+Do not maintain two competing template renderers.
+
+Template switching
+
+When switching from imported to default:
+
+- Restore the selected default template.
+
+When switching from default to imported:
+
+- Remove default scene elements and display the imported scene.
+
+When reopening a project:
+
+- Restore the exact mode and scene.
+
+Phase 5 acceptance test
+
+Use a visible test image with a distinctive background, header, and option layout.
+
+Verify:
+
+- Imported image appears.
+- Default template does not appear behind it.
+- Default header does not reappear.
+- Default question and options do not overlap it.
+- Switching modes works.
+- Restarting preserves the selected mode.
+
+Do not proceed until this defect is fixed.
+
+After completing and verifying PHASE 5, automatically proceed to PHASE 6.
+
+---
+
+PHASE 6 — WRITTEN TEMPLATE AND EMPTY TEMPLATE GEOMETRY MAPPING
+
+Implement a real two-image template workflow.
+
+The purpose is not merely to recolor the default theme.
+
+The purpose is to understand the written reference design, understand the empty design, map their geometry, and create a reusable editable project.
+
+Upload workflow
+
+Provide two separate upload areas:
+
+1. WRITTEN TEMPLATE
+   
+   - Contains sample question text and option text.
+   - May contain question number, timer, header, and other design elements.
+
+2. EMPTY TEMPLATE
+   
+   - Contains the same design layout without completed question text.
+   - May contain blank question and option containers.
+
+Keep the separate DETECT TEMPLATE button.
+
+Uploading must only:
+
+- Validate the image.
+- Display its thumbnail.
+- Preserve the original image.
+- Record image dimensions.
+- Wait for the user's detection action.
+
+Do not automatically apply either image.
+
+Detection workflow
+
+When both images are supplied:
+
+Step 1 — Analyze the written template.
+
+Detect:
+
+- Header bounds.
+- Header title bounds.
+- Question number bounds.
+- Question text bounds.
+- Question container bounds.
+- Option A container and text.
+- Option B container and text.
+- Option C container and text.
+- Option D container and text.
+- Timer and progress regions.
+- Logos and decorative objects.
+- All visible design regions.
+
+Step 2 — Analyze the empty template.
+
+Detect:
+
+- Background.
+- Header.
+- Empty question container.
+- Empty option containers.
+- Timer area.
+- Shapes.
+- Borders.
+- Logos.
+- Decorative elements.
+- Blank regions and available text areas.
+
+Step 3 — Geometry mapping.
+
+Map the corresponding regions between the written and empty templates.
+
+For example:
+
+- Written question text region → empty question text region.
+- Written option A text → empty option A text region.
+- Written option B text → empty option B text region.
+- Written option C text → empty option C text region.
+- Written option D text → empty option D text region.
+
+Infer:
+
+- Normalized X/Y.
+- Width.
+- Height.
+- Alignment.
+- Padding.
+- Text baseline.
+- Font size approximation.
+- Container-to-text relationships.
+- Layer order.
+
+Step 4 — Build the editable scene.
+
+Use the empty template as the primary visual design when a valid empty template has been supplied.
+
+Use the written template as the geometry and semantic reference.
+
+Create editable text slots in the corresponding empty-template regions.
+
+Preserve both original uploaded images as source assets.
+
+If only one image is supplied, use a single-image detection workflow and clearly report that paired geometry mapping was not performed.
+
+Do not pretend that two-image mapping happened when only one image was uploaded.
+
+Important text-removal limitation
+
+Do not blindly paint over text with a guessed background color.
+
+For a flattened written image:
+
+- Detect text regions.
+- Estimate their masks.
+- Use the empty image as a reference for corresponding background regions.
+- Align and compare the two images.
+- Use the empty template to reconstruct the clean region wherever possible.
+- If alignment differs, use geometric registration before mapping.
+- If the empty image does not contain the same underlying background, preserve the source and offer manual mask correction.
+
+Never destroy the original image.
+
+Output
+
+Produce:
+
+- Original written image asset.
+- Original empty image asset.
+- Detection metadata.
+- Geometry mapping.
+- Editable text slots.
+- Reconstructed scene graph.
+- Detection confidence per object.
+- Manual correction controls.
+
+Do not claim exact recovery of original layers from a flattened JPG/PNG.
+
+After completing and verifying PHASE 6, automatically proceed to PHASE 7.
+
+---
+
+PHASE 7 — REAL COMPUTER VISION DETECTION ENGINE
+
+Replace the pixel-sampling-only detector with a modular deterministic computer-vision pipeline.
+
+Do not make Gemini or a remote AI service mandatory.
+
+Use suitable local methods and libraries supported by the application:
+
+- OCR.
+- Text-region detection.
+- Connected components.
+- Contour detection.
+- Edge detection.
+- Color segmentation.
+- Shape classification.
+- Geometric region analysis.
+- Image registration.
+- Object grouping.
+- Text alignment inference.
+- Layer-order inference.
+
+Evaluate suitable Android/OpenCV and browser-compatible solutions based on actual dependency size and device performance.
+
+Do not add a large library without measuring its APK size and runtime impact.
+
+Detection classes
+
+Detect and classify:
+
+- Full background.
+- Header region.
+- Header title.
+- Question number.
+- Question text.
+- Question container.
+- Option containers A–D.
+- Option labels A–D.
+- Option text.
+- Timer.
+- Timer capsule.
+- Progress bar.
+- Logos.
+- Icons.
+- Images.
+- Decorative objects.
+- Shapes.
+- Borders.
+- Text alignment.
+- Approximate font family.
+- Font size.
+- Font weight.
+- Layer order.
+
+Per-object data
+
+Every detected object must contain:
+
+- Stable ID.
+- Element type.
+- Name.
+- Normalized bounding box.
+- X coordinate.
+- Y coordinate.
+- Width.
+- Height.
+- Rotation.
+- Text if detected.
+- Foreground color.
+- Background color.
+- Border information.
+- Font information if inferable.
+- Opacity if inferable.
+- Layer order.
+- Source image reference.
+- Confidence score.
+- Detection method.
+- Editable status.
+
+Confidence must be calculated from actual detection evidence.
+
+Never hardcode a confidence percentage.
+
+Manual correction
+
+Allow the user to:
+
+- Select a detected object.
+- Correct its bounding box.
+- Change its type.
+- Merge or split regions.
+- Correct OCR text.
+- Adjust masks.
+- Change layer order.
+- Mark an object as non-editable.
+
+A flattened image does not contain original layer information. Preserve the source image and clearly identify reconstructed elements.
+
+Detection validation
+
+Test against:
+
+- Light backgrounds.
+- Dark backgrounds.
+- Gradient backgrounds.
+- Textured backgrounds.
+- Different fonts.
+- Different aspect ratios.
+- Different option layouts.
+- Images with logos.
+- Images with overlapping decorations.
+- Low-resolution images.
+
+Do not proceed until detection results are visibly inspected and tested.
+
+After completing and verifying PHASE 7, automatically proceed to PHASE 8.
+
+---
+
+PHASE 8 — UNIFIED FULLY EDITABLE DESIGN MODEL
+
+All template sources must use the same model:
+
+1. Existing default templates.
+2. Written-template imports.
+3. Empty-template imports.
+4. Paired written + empty imports.
+5. Canva imports.
+6. New user-created designs.
+
+Create one versioned design schema.
+
+Each element must include:
+
+- Stable unique ID.
+- Type.
+- Name.
+- X.
+- Y.
+- Width.
+- Height.
+- Rotation.
+- Text.
+- Font family.
+- Font size.
+- Font weight.
+- Text color.
+- Background color.
+- Border color.
+- Border width.
+- Border radius.
+- Opacity.
+- Alignment.
+- Visibility.
+- Layer order.
+- Asset reference.
+- Detection confidence.
+- Source image reference.
+- Parent/group ID where needed.
+- Locked/unlocked status.
+- Editable status.
+
+Use normalized coordinates from 0 to 1.
+
+The renderer converts normalized coordinates into the active output dimensions.
+
+Support different aspect ratios without corrupting element positions.
+
+Required element types
+
+- Background.
+- Image.
+- Text.
+- Shape.
+- Header.
+- Question number.
+- Question text.
+- Question container.
+- Option container.
+- Option label.
+- Option text.
+- Timer.
+- Progress bar.
+- Logo.
+- Icon.
+- Decorative object.
+- Group.
+
+Independent editing
+
+Every element must be independently selectable and editable.
+
+A header must not be one inseparable object if it contains a background, logo, question count, and title.
+
+Option A must not be one inseparable object if it contains a background, label, and option text.
+
+The same rule applies to B, C, and D.
+
+Support:
+
+- Select.
+- Move.
+- Resize.
+- Rotate.
+- Edit text.
+- Change font.
+- Change font size.
+- Change weight.
+- Change foreground color.
+- Change background.
+- Change border.
+- Change alignment.
+- Change opacity.
+- Hide/show.
+- Lock/unlock.
+- Duplicate.
+- Delete.
+- Group/ungroup.
+- Reorder layers.
+
+Do not fake independent editing by changing the entire template theme.
+
+After completing and verifying PHASE 8, automatically proceed to PHASE 9.
+
+---
+
+PHASE 9 — COMPLETE FOUR-DIRECTION POSITION AND SIZE EDITOR
+
+Replace incomplete position controls with a universal element inspector.
+
+When an element is selected, show:
+
+- Move left.
+- Move right.
+- Move up.
+- Move down.
+- Numeric X.
+- Numeric Y.
+- Width.
+- Height.
+- Rotation.
+- Reset position.
+- Reset size.
+
+All four directional controls must work.
+
+Numeric fields must update the scene immediately.
+
+Changes must be reflected in preview and final video.
+
+Required examples
+
+Header:
+
+- Header background moves independently.
+- Header title moves independently.
+- Header logo moves independently.
+- Header question count moves independently.
+
+Question:
+
+- Question card moves independently.
+- Question text moves independently.
+- Question number moves independently.
+
+Options:
+
+- A background/container.
+- A label.
+- A text.
+- B background/container.
+- B label.
+- B text.
+- C background/container.
+- C label.
+- C text.
+- D background/container.
+- D label.
+- D text.
+
+Timer:
+
+- Timer container.
+- Timer text/icon.
+- Timer progress indicator.
+
+Also support:
+
+- Progress bar.
+- Answer reveal.
+- Logos.
+- Images.
+- Decorative elements.
+- Newly added objects.
+
+Adding elements
+
+When a user adds text, shape, or image:
+
+- Add it to the active scene.
+- Give it a stable ID.
+- Select it.
+- Show X/Y/width/height controls.
+- Allow resize and rotation.
+- Allow styling.
+- Allow save and reopen.
+
+No added element may be stuck at an uneditable default position or size.
+
+Acceptance test
+
+Move each listed element left, right, up, and down.
+
+Verify numeric coordinates change and preview updates.
+
+Test resizing, rotation, reset, and independent movement of text versus its container.
+
+After completing and verifying PHASE 9, automatically proceed to PHASE 10.
+
+---
+
+PHASE 10 — QUESTION AND OPTION TYPEWRITER SYNCHRONIZATION
+
+Implement a proper narration-synchronized text reveal engine.
+
+The current behavior of displaying the full question and all options immediately is not acceptable for this requested mode.
+
+Question sequence
+
+When the question narration begins:
+
+1. Start with the question text hidden.
+2. Reveal the question progressively, word by word or character by character according to the selected typing style.
+3. Synchronize each reveal with the actual speech timing.
+4. Do not display the complete question before narration reaches it.
+5. Finish the question text at the corresponding spoken endpoint.
+
+Option sequence
+
+After the question:
+
+1. Narrator says the option label, for example "A".
+2. Display the A label at the correct time.
+3. Narrator speaks option A text.
+4. Reveal option A text progressively in synchronization with its narration.
+5. Repeat for B, C, and D.
+6. Do not reveal future option text before its narration.
+7. Preserve correct option ordering.
+
+The user specifically expects the option text to appear progressively while it is spoken.
+
+Timing source
+
+Use actual audio timing.
+
+Where TTS provides word or sentence boundaries, use those timestamps.
+
+If word-level timestamps are unavailable:
+
+- Derive a timing schedule from the actual audio duration and text segmentation.
+- Use a configurable alignment strategy.
+- Do not claim phoneme-perfect synchronization.
+- Allow small timing adjustments.
+- Keep the full audio and visual timelines synchronized.
+
+The final exported video must use the same timeline behavior as the preview.
+
+Animation style dropdowns
+
+Do not offer only Typewriter.
+
+Provide selectable question and option text reveal styles, such as:
+
+- Typewriter character.
+- Typewriter word.
+- Fade in.
+- Slide from left.
+- Slide from right.
+- Slide from top.
+- Slide from bottom.
+- Scale in.
+- Pop in.
+- Blur to clear.
+- Mask reveal.
+- Wipe reveal.
+- Letter-by-letter.
+- Word-by-word.
+- Line-by-line.
+- No animation.
+
+Provide separate settings for:
+
+- Question text.
+- Option label.
+- Option text.
+- Header.
+- Answer reveal.
+
+Allow:
+
+- Animation duration.
+- Delay.
+- Stagger.
+- Easing.
+- Direction where relevant.
+
+Audio synchronization tests
+
+Use known narration samples and compare:
+
+- Spoken word start.
+- Visual word start.
+- Spoken word end.
+- Visual text completion.
+
+Test short and long questions, different speech speeds, and different TTS voices.
+
+Do not proceed until exported video and preview are synchronized.
+
+After completing and verifying PHASE 10, automatically proceed to PHASE 11.
+
+---
+
+PHASE 11 — MULTIPLE PAGE-TURN AND QUESTION TRANSITIONS
+
+The current single page-turn effect is insufficient.
+
+Build a transition library.
+
+Provide a dropdown for the user to select the transition between questions.
+
+Page-turn transitions
+
+Include distinct styles such as:
+
+- Classic book page turn.
+- Reverse page turn.
+- Horizontal page flip.
+- Vertical page flip.
+- 3D card flip.
+- Fold from left.
+- Fold from right.
+- Center split.
+- Page curl.
+- Magazine page turn.
+
+Additional question transitions
+
+Include:
+
+- Fade.
+- Crossfade.
+- Slide left.
+- Slide right.
+- Slide up.
+- Slide down.
+- Zoom in.
+- Zoom out.
+- Push.
+- Wipe.
+- Blur transition.
+- Rotate.
+- Flip card.
+- None.
+
+These must be actual different visual implementations, not multiple labels that all invoke the same function.
+
+User settings
+
+Allow:
+
+- Transition style.
+- Duration.
+- Direction.
+- Easing.
+- Background or backside color.
+- Optional shadow.
+- Preview transition.
+
+Performance
+
+Transitions must:
+
+- Render at the selected FPS.
+- Preserve frame count.
+- Preserve timestamps.
+- Avoid unnecessary full-frame copies.
+- Avoid memory leaks.
+- Work in both preview and exported video.
+
+Test every transition at 1080p.
+
+After completing and verifying PHASE 11, automatically proceed to PHASE 12.
+
+---
+
+PHASE 12 — COMPLETE TEMPLATE PERSISTENCE AND PROJECT REOPENING
+
+Inspect and replace limited settings-only persistence.
+
+Use IndexedDB for:
+
+- Full design model.
+- Large image assets.
+- Original written image.
+- Original empty image.
+- Masks.
+- Reconstructed assets.
+- Layer metadata.
+- Animation settings.
+- Template metadata.
+
+Storage requirements
+
+Use:
+
+- Stable template IDs.
+- Versioned schema.
+- Database migrations.
+- IndexedDB transactions.
+- Transaction completion events.
+- Explicit error handling.
+- Read-back verification.
+- Asset integrity checks.
+
+Never clear the entire template store for every update.
+
+Never silently swallow database errors.
+
+Do not report success before the transaction commits.
+
+Save workflow
+
+When user clicks Save as Template:
+
+1. Ask for a name if missing.
+2. Serialize the complete scene.
+3. Store referenced assets.
+4. Store detection metadata.
+5. Store animation settings.
+6. Store template mode.
+7. Wait for transaction completion.
+8. Read the record back.
+9. Verify IDs, layers, and assets.
+10. Update My Templates.
+11. Show success only after verification.
+
+Reopen workflow
+
+After application restart, allow:
+
+- Preview.
+- Apply.
+- Edit.
+- Rename.
+- Duplicate.
+- Delete.
+- Export/import template.
+
+A saved imported template must reopen as the same imported design.
+
+It must not reopen as a default template with different colors.
+
+Migration
+
+Preserve older saved templates.
+
+Migrate old theme-only templates to the new schema without deleting them.
+
+Clearly identify migrated templates as legacy where full editable reconstruction is unavailable.
+
+After completing and verifying PHASE 12, automatically proceed to PHASE 13.
+
+---
+
+PHASE 13 — CANVA IMPORT
+
+Use official Canva authorization and APIs.
+
+Inspect actual API capabilities before implementation.
+
+For supported data, preserve:
+
+- Text.
+- Shapes.
+- Images.
+- Background.
+- Position.
+- Dimensions.
+- Font.
+- Colors.
+- Layer order.
+
+Map imported elements into the same unified scene model.
+
+If Canva does not expose an element:
+
+- Preserve the visual asset where legally and technically permitted.
+- Mark the element as unsupported for individual editing.
+- Do not claim it is fully editable.
+
+Handle:
+
+- Private designs.
+- Missing permissions.
+- Expired authorization.
+- Unsupported elements.
+- Failed downloads.
+- API rate limits.
+
+Do not pretend that any arbitrary shared Canva URL is fully editable.
+
+Save Canva imports through the same persistent template system.
+
+After completing and verifying PHASE 13, automatically proceed to PHASE 14.
+
+---
+
+PHASE 14 — FULL PERFORMANCE AND REGRESSION TESTING
+
+Run tests with identical input data and device conditions before and after optimization.
+
+Required benchmark matrix
+
+Project| Questions| Resolution| FPS
+A| 5| 1080p| 24
+B| 10| 1080p| 24
+C| 10| 1080p| 30
+D| 25| 1080p| 30
+E| 30| 1080p| 30
+F| 50| 1080p| 30
+
+Run every benchmark:
+
+- Narration ON.
+- Narration OFF.
+
+Report:
+
+- Encoder path.
+- Hardware/software evidence.
+- Total frames.
+- Video duration.
+- Encoding duration.
+- Processing FPS.
+- Peak memory.
+- Output file size.
+- Average bitrate.
+- Visual quality validation.
+- Audio/video synchronization.
+- MP4 playback.
+- Dropped frames.
+- Finalization time.
+
+Do not combine results from different encoder paths.
+
+Template tests
+
+Test:
+
+- Written template upload.
+- Empty template upload.
+- Paired upload.
+- Detection.
+- Geometry mapping.
+- Image registration.
+- Header detection.
+- Question detection.
+- Option detection.
+- Text detection.
+- Timer detection.
+- Mask correction.
+- Imported-only preview.
+- No default layer underneath.
+- Element selection.
+- Independent text editing.
+- X/Y movement.
+- Four-direction controls.
+- Numeric positioning.
+- Resizing.
+- Rotation.
+- Font changes.
+- Color changes.
+- Add element.
+- Delete element.
+- Layer reorder.
+- Save.
+- Restart.
+- Reopen.
+- Apply saved template.
+
+Animation tests
+
+Test:
+
+- Character typewriter.
+- Word typewriter.
+- Narration synchronization.
+- Sequential option reveal.
+- Every page-turn style.
+- Every question transition.
+- Preview/export consistency.
+- Correct FPS and frame count.
+
+Existing application regression tests
+
+Verify:
+
+- Login page.
+- Local mode.
+- Question import.
+- Sample questions.
+- Edge TTS.
+- Voice preview.
+- Speech generation.
+- Export progress.
+- MP4 export.
+- Video preview.
+- Download.
+- Share.
+- Existing templates.
+- Project save.
+- Project reopen.
+
+Do not remove or rewrite working TTS code unless a demonstrated defect requires it.
+
+After completing and verifying PHASE 14, automatically proceed to PHASE 15.
+
+---
+
+PHASE 15 — FINAL BUILD, APK, AND SOURCE DELIVERY
+
+Only after all mandatory phases have been attempted and their results recorded:
+
+1. Run clean build.
+2. Run unit tests.
+3. Run instrumentation tests where supported.
+4. Run static analysis.
+5. Check Android manifest and permissions.
+6. Check application startup.
+7. Check local mode.
+8. Check encoder path selection.
+9. Check template import and editing.
+10. Check persistence after restart.
+11. Check animations and narration synchronization.
+12. Check export playback.
+13. Build the APK.
+14. Verify APK installation.
+15. Test the APK on an actual Android device where available.
+
+Final delivery
+
+Deliver:
+
+- Complete working APK.
+- Complete updated source project ZIP.
+- Phase-by-phase implementation report.
+- Before/after benchmark report.
+- Regression test report.
+- Known limitations.
+- Exact device test instructions for any BLOCKED tests.
+
+Do not deliver only a build-only APK.
+
+Do not remove source files.
+
+Do not fabricate test results.
+
+Do not claim completion based on compilation alone.
+
+---
+
+FINAL NON-NEGOTIABLE RULES
+
+1. Do not rebuild the app from scratch.
+2. Do not destroy existing working features.
+3. Do not leave the native JPEG/Base64 path as the normal fast path.
+4. Do not call "prefer-hardware" proof of hardware acceleration.
+5. Do not call pixel sampling complete template detection.
+6. Do not hardcode detection confidence.
+7. Do not show the default template behind an imported template.
+8. Do not save only theme colors when the user expects a complete editable template.
+9. Do not claim every flattened image element is perfectly recoverable.
+10. Do not provide only vertical positioning controls.
+11. Do not make text and its container inseparable.
+12. Do not display all question and option text before narration in synchronized reveal mode.
+13. Do not offer multiple animation names that all use one animation implementation.
+14. Do not claim Canva elements are editable unless the API actually provides the required data.
+15. Do not skip regression testing between phases.
+16. Do not claim a phase passed without evidence.
+17. Do not claim 10× or 20× speed improvement without measured results.
+18. Do not stop after writing a plan.
+19. Do not stop after PHASE 0.
+20. Do not wait for the user to authorize the next phase.
+21. Do not require repeated user messages to continue implementation.
+22. Automatically execute all phases in order, from PHASE 0 through PHASE 15.
+
+FINAL REQUIRED RESULT
+
+When the user imports a template, the preview must show that user's design only.
+
+The application must reconstruct a usable editable scene from the written and empty references, map question and option geometry correctly, and place future imported questions into those same regions without damaging the design.
+
+Every element must have independent editing and complete four-direction positioning.
+
+The exported video must progressively reveal question and option text in synchronization with narration, with selectable animation styles and multiple genuine page transitions.
+
+The encoder must use a genuinely faster rendering path, not merely a renamed or partially implemented fallback.
+
+START WITH PHASE 0, THEN AUTOMATICALLY EXECUTE PHASE 1, PHASE 2, PHASE 3, AND EVERY REMAINING PHASE THROUGH PHASE 15. AFTER EACH PHASE, RUN ITS REGRESSION TESTS, FIX FAILURES, RECORD THE RESULTS, AND AUTOMATICALLY CONTINUE TO THE NEXT PHASE. DO NOT STOP OR WAIT FOR USER INPUT BETWEEN PHASES. DELIVER THE COMPLETE UPDATED APK, SOURCE PROJECT, AND CONSOLIDATED FINAL REPORT AFTER THE ENTIRE WORKFLOW.
